@@ -3,6 +3,7 @@ package lk.ijse.possystemspringbackend.dto.impl;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lk.ijse.possystemspringbackend.customObj.CustomerResponse;
 import lk.ijse.possystemspringbackend.dto.SuperDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +12,7 @@ import lombok.Data;
 @AllArgsConstructor
 @NotBlank
 @Data
-public class CustomerDTO implements SuperDTO {
+public class CustomerDTO implements SuperDTO, CustomerResponse {
     private String id;
 
     @NotBlank(message = "Name is required")
