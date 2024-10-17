@@ -29,7 +29,7 @@ public class WebAppRootConfig {
     public DataSource dataSource() {
         var dmds=new DriverManagerDataSource();
         dmds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dmds.setUrl("jdbc:mysql://localhost:3306/fruits?createDatabaseIfNotExist=true");
+        dmds.setUrl("jdbc:mysql://localhost:3306/posSystemDB?createDatabaseIfNotExist=true");
         dmds.setUsername("root");
         dmds.setPassword("Ijse@1234");
         return dmds;
@@ -42,7 +42,7 @@ public class WebAppRootConfig {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("lk.ijse.fruitshop.fruitshop.entity");
+        factory.setPackagesToScan("lk.ijse.possystemspringbackend.entity");
         factory.setDataSource(dataSource());
 
         return factory;
