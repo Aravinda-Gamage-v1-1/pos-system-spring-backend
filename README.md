@@ -1,4 +1,4 @@
-# Spring POS
+# POS System Spring Backend
 
 This is a Spring-based backend system. This provides RESTful APIs for managing customers, items, orders, and transactions. This project uses Spring, JPA, Hibernate,Tomcat, and MySQL for database connectivity.
 
