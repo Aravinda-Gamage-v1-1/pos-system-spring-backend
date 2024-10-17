@@ -7,6 +7,8 @@ import jakarta.persistence.Table;
 import lk.ijse.possystemspringbackend.entity.SuperEntity;
 import lombok.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
