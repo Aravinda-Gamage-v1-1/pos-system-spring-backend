@@ -1,6 +1,7 @@
 package lk.ijse.possystemspringbackend.entity.impl;
 
 import jakarta.persistence.*;
+import lk.ijse.possystemspringbackend.embedded.OrderDetailPrimaryKey;
 import lk.ijse.possystemspringbackend.entity.SuperEntity;
 import lombok.*;
 
