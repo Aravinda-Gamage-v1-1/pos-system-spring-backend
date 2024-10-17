@@ -7,22 +7,19 @@ import lk.ijse.possystemspringbackend.customObj.CustomerResponse;
 import lk.ijse.possystemspringbackend.dto.SuperDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @AllArgsConstructor
-@NotBlank
+@NoArgsConstructor
 @Data
 public class CustomerDTO implements SuperDTO, CustomerResponse {
     private String id;
-
     @NotBlank(message = "Name is required")
     @Pattern(regexp = "^[A-Za-z]{2,30}$", message = "First name must contain only alphabets and be 2-30 characters long")
-
     private String  name;
-
     @NotBlank(message = "Address is required")
     @Size(min = 5, max = 100, message = "Address must be between 5 and 100 characters")
     private String address;
-
     private double salary;
 }
