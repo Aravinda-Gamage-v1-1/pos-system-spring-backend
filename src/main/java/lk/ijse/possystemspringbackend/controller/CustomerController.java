@@ -24,10 +24,10 @@ public class CustomerController {
     private CustomerService customerService;
     static Logger logger = LoggerFactory.getLogger(CustomerController.class);
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void > createCustomer(@Valid @RequestBody CustomerDTO buildCustomerDTO  ){
+    public ResponseEntity<Void > createCustomer(@Valid @RequestBody CustomerDTO customerDTO  ){
         try {
-            customerService.saveCustomer(buildCustomerDTO);
-            logger.info("Customer saved : " + buildCustomerDTO);
+            customerService.saveCustomer(customerDTO);
+            logger.info("Customer saved : " + customerDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistFailedException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -37,11 +37,21 @@ public class CustomerController {
         }
     }
 
-    @PutMapping(value = "/{cusId}",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void>  updateCustomer(@Valid @PathVariable ("cusId") String cusId,@RequestBody CustomerDTO updateCustomerdto) {
+    @GetMapping(value = "/allcustomers",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CustomerDTO> getAllCustomers(){
+        return customerService.getAllCustomer();
+    }
+
+    @GetMapping(value = "/{cusId}",produces =MediaType.APPLICATION_JSON_VALUE )
+    public CustomerResponse getCustomer(@PathVariable("cusId") String cusId){
+        return customerService.getSelectCustomer(cusId);
+    }
+
+    @PatchMapping(value = "/{cusId}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void>  updateCustomer(@Valid @PathVariable ("cusId") String cusId,@RequestBody CustomerDTO customerdto) {
         try {
-            customerService.updateCustomer(cusId,updateCustomerdto);
-            logger.info("Customer updated : " + updateCustomerdto);
+            customerService.updateCustomer(cusId, customerdto);
+            logger.info("Customer updated : " + customerdto);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (CustomerNotFound e) {
             e.printStackTrace();
@@ -51,6 +61,7 @@ public class CustomerController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @DeleteMapping(value = "/{cusId}")
     public ResponseEntity<String> deleteCustomer(@PathVariable ("cusId") String cusId) {
         try {
@@ -63,13 +74,5 @@ public class CustomerController {
             logger.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-    @GetMapping(value = "/allcustomers",produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CustomerDTO> getAllCustomers(){
-        return customerService.getAllCustomer();
-    }
-    @GetMapping(value = "/{cusId}",produces =MediaType.APPLICATION_JSON_VALUE )
-    public CustomerResponse getCustomer(@PathVariable("cusId") String cusId){
-        return customerService.getSelectCustomer(cusId);
     }
 }

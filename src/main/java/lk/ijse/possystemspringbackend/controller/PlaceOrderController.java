@@ -23,10 +23,10 @@ public class PlaceOrderController {
     static Logger logger = LoggerFactory.getLogger(PlaceOrderController.class);
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void > createItem(@Valid @RequestBody OrderDTO buildorderDTO  ){
+    public ResponseEntity<Void > createItem(@Valid @RequestBody OrderDTO orderDTO  ){
         try {
-            placeOrderService.saveOrder(buildorderDTO);
-            logger.info("Order saved : " + buildorderDTO);
+            placeOrderService.saveOrder(orderDTO);
+            logger.info("Order saved : " + orderDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistFailedException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -35,6 +35,7 @@ public class PlaceOrderController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping(value = "/allorders",produces = MediaType.APPLICATION_JSON_VALUE)
     public List<OrderDTO> getAllOrders(){
         return placeOrderService.getAllOrder();

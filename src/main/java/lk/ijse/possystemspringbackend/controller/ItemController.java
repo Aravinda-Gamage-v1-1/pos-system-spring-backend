@@ -25,10 +25,10 @@ public class ItemController {
     static Logger logger = LoggerFactory.getLogger(ItemController.class);
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void > createItem(@Valid @RequestBody ItemDTO buildItemDTO  ){
+    public ResponseEntity<Void > createItem(@Valid @RequestBody ItemDTO itemDTO  ){
         try {
-            itemService.saveItem(buildItemDTO);
-            logger.info("Item saved : " + buildItemDTO);
+            itemService.saveItem(itemDTO);
+            logger.info("Item saved : " + itemDTO);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistFailedException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -38,11 +38,21 @@ public class ItemController {
         }
     }
 
-    @PutMapping(value = "/{code}",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void>  updateItem(@Valid @PathVariable ("code") String code,@RequestBody ItemDTO updateItemdto) {
+    @GetMapping(value = "/allitems",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ItemDTO> getAllItems(){
+        return itemService.getAllItem();
+    }
+
+    @GetMapping(value = "/{code}",produces =MediaType.APPLICATION_JSON_VALUE )
+    public ItemResponse getItem(@PathVariable("code") String code){
+        return itemService.getSelectItem(code);
+    }
+
+    @PatchMapping(value = "/{code}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void>  updateItem(@Valid @PathVariable ("code") String code,@RequestBody ItemDTO itemdto) {
         try {
-            itemService.updateItem(code,updateItemdto);
-            logger.info("Item updated : " + updateItemdto);
+            itemService.updateItem(code, itemdto);
+            logger.info("Item updated : " + itemdto);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (ItemNotFoundException e) {
             e.printStackTrace();
@@ -52,6 +62,7 @@ public class ItemController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @DeleteMapping(value = "/{code}")
     public ResponseEntity<String> deleteItem(@PathVariable ("code") String code) {
         try {
@@ -64,13 +75,5 @@ public class ItemController {
             logger.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-    @GetMapping(value = "/allitems",produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ItemDTO> getAllItems(){
-        return itemService.getAllItem();
-    }
-    @GetMapping(value = "/{code}",produces =MediaType.APPLICATION_JSON_VALUE )
-    public ItemResponse getItem(@PathVariable("code") String code){
-        return itemService.getSelectItem(code);
     }
 }
